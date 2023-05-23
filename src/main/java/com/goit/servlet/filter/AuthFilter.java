@@ -4,7 +4,11 @@ import com.goit.conf.FlywayConfigurations;
 import com.goit.util.Constants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -44,7 +48,8 @@ public class AuthFilter extends HttpFilter {
             sendNotAuthorized(res);
         } else if (requestToken.equals(token)) {
             HttpSession session = req.getSession(true);
-            session.setMaxInactiveInterval(60);
+            final int seconds = 60;
+            session.setMaxInactiveInterval(seconds);
             boolean isNew = session.isNew();
             String id = session.getId();
 
