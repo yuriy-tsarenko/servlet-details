@@ -23,7 +23,7 @@ public class CustomerRepositoryIml extends JDBCRepository<CustomerEntity> {
 
     @Language("SQL")
     private static final String INSERT_CUSTOMER = """
-            INSERT INTO customers (customer_id, customer_name, contact_name, country) VALUES (DEFAULT, ?, ?, ?)
+            INSERT INTO customers (customer_name, contact_name, country) VALUES (?, ?, ?)
             """;
 
     @Language("SQL")
@@ -81,7 +81,10 @@ public class CustomerRepositoryIml extends JDBCRepository<CustomerEntity> {
     @Override
     public CustomerEntity save(CustomerEntity entity) {
         try {
-            CustomerEntity byId = findById(entity.getCustomerId());
+            Long id = entity.getCustomerId();
+            CustomerEntity byId = Objects.isNull(id)
+                    ? null
+                    : findById(id);
             if (Objects.isNull(byId)) {
                 PreparedStatement preparedStatement = datasource.preparedStatement(INSERT_CUSTOMER, true);
                 final int nameIndex = 1;
@@ -94,7 +97,7 @@ public class CustomerRepositoryIml extends JDBCRepository<CustomerEntity> {
                 preparedStatement.executeUpdate();
                 ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
                 generatedKeys.first();
-                long customerId = generatedKeys.getLong("customer_id");
+                long customerId = generatedKeys.getLong(1);
                 entity.setCustomerId(customerId);
                 datasource.close();
                 return entity;
@@ -113,8 +116,8 @@ public class CustomerRepositoryIml extends JDBCRepository<CustomerEntity> {
         try {
             PreparedStatement preparedStatement = datasource.preparedStatement(getDeleteByIdQuery(TABLE_NAME));
             final int customerIdIndex = 1;
-            final int idIndex = 2;
-            preparedStatement.setString(customerIdIndex, "customer_id");
+            final int idIndex = 1;
+//            preparedStatement.setString(customerIdIndex, "customer_id");
             preparedStatement.setLong(idIndex, id);
             preparedStatement.executeUpdate();
             datasource.close();

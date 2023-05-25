@@ -15,7 +15,7 @@ public abstract class JDBCRepository<T> {
     @Language("SQL")
     private final String findAllQuery = "SELECT * FROM %s;";
     @Language("SQL")
-    private final String deleteByIdQuery = "DELETE FROM %s WHERE ?=?;";
+    private final String deleteByIdQuery = "DELETE FROM %s WHERE customer_id=?;";
 
     public String getFindByIdQuery(String tableName) {
         return String.format(findByIdQuery, tableName);

@@ -8,19 +8,19 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
-public class FlywayConfigurations {
+public class FlywayConfiguration {
     private static final String DEFAULT_FILE_NAME = "application.properties";
 
     private Flyway flyway;
 
-    public FlywayConfigurations setup() throws IOException {
+    public FlywayConfiguration setup() throws IOException {
         setup(DEFAULT_FILE_NAME);
         return this;
     }
 
-    public FlywayConfigurations setup(String propertiesFileName) throws IOException {
+    public FlywayConfiguration setup(String propertiesFileName) throws IOException {
         Properties properties = new Properties();
-        properties.load(FlywayConfigurations.class.getClassLoader().getResourceAsStream(propertiesFileName));
+        properties.load(FlywayConfiguration.class.getClassLoader().getResourceAsStream(propertiesFileName));
 
         String url = properties.getProperty(Constants.FLYWAY_CONNECTION_URL);
         String username = properties.getProperty(Constants.FLYWAY_USER);

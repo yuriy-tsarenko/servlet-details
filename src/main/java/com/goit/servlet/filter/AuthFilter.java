@@ -1,6 +1,6 @@
 package com.goit.servlet.filter;
 
-import com.goit.conf.FlywayConfigurations;
+import com.goit.conf.FlywayConfiguration;
 import com.goit.util.Constants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -30,7 +30,7 @@ public class AuthFilter extends HttpFilter {
     public void init() {
         try {
             Properties properties = new Properties();
-            properties.load(FlywayConfigurations.class.getClassLoader().getResourceAsStream(DEFAULT_FILE_NAME));
+            properties.load(FlywayConfiguration.class.getClassLoader().getResourceAsStream(DEFAULT_FILE_NAME));
             token = properties.getProperty(Constants.TOKEN);
         } catch (IOException e) {
             throw new RuntimeException(e);

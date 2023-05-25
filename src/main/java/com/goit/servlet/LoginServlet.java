@@ -1,8 +1,8 @@
 package com.goit.servlet;
 
-import com.goit.conf.FlywayConfigurations;
-import com.goit.util.Constants;
+import com.goit.conf.FlywayConfiguration;
 import com.goit.servlet.model.CredentialsModel;
+import com.goit.util.Constants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import jakarta.servlet.ServletConfig;
@@ -41,7 +41,7 @@ public class LoginServlet extends HttpServlet {
         try {
             gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
             Properties properties = new Properties();
-            properties.load(FlywayConfigurations.class.getClassLoader().getResourceAsStream(DEFAULT_APP_FILE_NAME));
+            properties.load(FlywayConfiguration.class.getClassLoader().getResourceAsStream(DEFAULT_APP_FILE_NAME));
             username = properties.getProperty(Constants.USERNAME);
             password = properties.getProperty(Constants.PASSWORD);
             token = properties.getProperty(Constants.TOKEN);
